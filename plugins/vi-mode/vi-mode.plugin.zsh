@@ -1,26 +1,18 @@
-# Ensures that $terminfo values are valid and updates editor information when
-# the keymap changes.
-function zle-keymap-select zle-line-init zle-line-finish {
-  # The terminal must be in application mode when ZLE is active for $terminfo
-  # values to be valid.
-  if (( ${+terminfo[smkx]} )); then
-    printf '%s' ${terminfo[smkx]}
-  fi
-  if (( ${+terminfo[rmkx]} )); then
-    printf '%s' ${terminfo[rmkx]}
-  fi
-
+function zle-line-init zle-keymap-select {
   zle reset-prompt
-  zle -R
 }
 
 zle -N zle-line-init
-zle -N zle-line-finish
 zle -N zle-keymap-select
 zle -N edit-command-line
 
 
+#changing mode clobbers the keybinds, so store the keybinds before and execute 
+#them after
+binds=`bindkey -L`
 bindkey -v
+for bind in ${(@f)binds}; do eval $bind; done
+unset binds
 
 # allow v to edit the command line (standard behaviour)
 autoload -Uz edit-command-line
@@ -39,3 +31,5 @@ function vi_mode_prompt_info() {
 if [[ "$RPS1" == "" && "$RPROMPT" == "" ]]; then
   RPS1='$(vi_mode_prompt_info)'
 fi
+bindkey -M viins 'jk' vi-cmd-mode
+
