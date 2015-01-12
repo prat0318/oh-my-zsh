@@ -129,7 +129,7 @@ function pushdf() {
   pushd "$(pfd)"
 }
 
-function quick-look() {
+function qlook() {
   (( $# > 0 )) && qlmanage -p $* &>/dev/null &
 }
 
@@ -225,3 +225,7 @@ EOF
 	esac
 	osascript -e "tell application \"iTunes\" to $opt"
 }
+
+alias lsfinder=lsf
+alias ldfinder=ldf
+alias cdfinder=cdf
