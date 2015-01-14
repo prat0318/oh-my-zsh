@@ -12,8 +12,8 @@ bindkey -v
 for bind in ${(@f)binds}; do eval $bind; done
 unset binds
 
-CMD_INDICATOR="%{$fg_bold[red]%} %{$fg[red]%}%{$reset_color%}"
-INS_INDICATOR="%{$fg_bold[red]%}I%{$fg[red]%}%{$reset_color%}"
+CMD_INDICATOR="%{$fg_bold[red]%}*%{$fg[red]%}%{$reset_color%}"
+INS_INDICATOR="%{$fg_bold[red]%} %{$fg[red]%}%{$reset_color%}"
 
 function vi_mode_prompt_info() {
   echo "${${KEYMAP/vicmd/$CMD_INDICATOR}/(main|viins)/$INS_INDICATOR}"
